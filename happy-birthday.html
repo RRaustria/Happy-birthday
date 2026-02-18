@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday! 🎂</title>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    background: #1a0533;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    font-family: 'Quicksand', sans-serif;
+  }
+
+  /* Confetti */
+  .confetti-piece {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    top: -20px;
+    animation: fall linear infinite;
+    border-radius: 2px;
+  }
+
+  @keyframes fall {
+    to { transform: translateY(110vh) rotate(720deg); }
+  }
+
+  /* Card */
+  .card {
+    text-align: center;
+    padding: 3rem 2.5rem;
+    position: relative;
+    z-index: 10;
+    animation: popIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.5); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  .cake {
+    font-size: 6rem;
+    display: block;
+    animation: bounce 1.5s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(255,200,50,0.6));
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-12px); }
+  }
+
+  h1 {
+    font-family: 'Pacifico', cursive;
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    background: linear-gradient(135deg, #ff9de2, #ffdd57, #6effa8, #57c7ff);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradShift 3s ease infinite;
+    margin: 1rem 0 0.5rem;
+    line-height: 1.15;
+  }
+
+  @keyframes gradShift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  p {
+    color: rgba(255,255,255,0.75);
+    font-size: 1.1rem;
+    letter-spacing: 0.05em;
+    margin-bottom: 2rem;
+  }
+
+  .btn {
+    background: linear-gradient(135deg, #ff6fd8, #ffdd57);
+    border: none;
+    color: #1a0533;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 0.75rem 2rem;
+    border-radius: 99px;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    box-shadow: 0 4px 20px rgba(255,111,216,0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .btn:hover { transform: scale(1.07); box-shadow: 0 6px 30px rgba(255,111,216,0.6); }
+  .btn:active { transform: scale(0.97); }
+
+  /* Stars */
+  .star {
+    position: fixed;
+    width: 4px; height: 4px;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle 2s ease-in-out infinite;
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.2; transform: scale(1); }
+    50%       { opacity: 1; transform: scale(1.8); }
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <span class="cake">🎂</span>
+  <h1>Happy Birthday!</h1>
+  <p>Wishing you a day full of joy & cake 🎉</p>
+  <button class="btn" onclick="burst()">🎊 Celebrate!</button>
+</div>
+
+<script>
+  const colors = ['#ff6fd8','#ffdd57','#6effa8','#57c7ff','#ff9de2','#ff7b54','#b5ffe1'];
+
+  function makeConfetti(n) {
+    for (let i = 0; i < n; i++) {
+      const el = document.createElement('div');
+      el.className = 'confetti-piece';
+      el.style.cssText = `
+        left: ${Math.random() * 100}vw;
+        background: ${colors[Math.floor(Math.random() * colors.length)]};
+        width: ${6 + Math.random() * 8}px;
+        height: ${6 + Math.random() * 8}px;
+        animation-duration: ${2 + Math.random() * 3}s;
+        animation-delay: ${Math.random() * 2}s;
+        border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
+        opacity: ${0.7 + Math.random() * 0.3};
+      `;
+      document.body.appendChild(el);
+    }
+  }
+
+  function makeStars() {
+    for (let i = 0; i < 40; i++) {
+      const s = document.createElement('div');
+      s.className = 'star';
+      s.style.cssText = `left:${Math.random()*100}vw;top:${Math.random()*100}vh;animation-delay:${Math.random()*2}s;animation-duration:${1.5+Math.random()*2}s`;
+      document.body.appendChild(s);
+    }
+  }
+
+  function burst() {
+    makeConfetti(60);
+    // Remove old confetti after a while to keep it fresh
+    setTimeout(() => {
+      document.querySelectorAll('.confetti-piece').forEach(e => e.remove());
+      makeConfetti(80);
+    }, 5000);
+  }
+
+  makeStars();
+  makeConfetti(40);
+</script>
+</body>
+</html>
